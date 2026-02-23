@@ -1,9 +1,0 @@
-public class DefaultTaxRule implements TaxRule {
-    @Override
-    public double getTaxPercent(String customerType) {
-        // hard-coded policy (matches original TaxRules behavior)
-        if ("student".equalsIgnoreCase(customerType)) return 5.0;
-        if ("staff".equalsIgnoreCase(customerType)) return 2.0;
-        return 8.0;
-    }
-}

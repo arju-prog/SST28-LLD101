@@ -11,11 +11,25 @@ public class CafeteriaSystem {
     private int invoiceSeq = 1000;
 
     public CafeteriaSystem() {
-        this.store = new FileStore();
-        this.pricer = new OrderPricer();
-        this.taxRule = new DefaultTaxRule();
-        this.discountRule = new DefaultDiscountRule();
-        this.formatter = new PlainTextInvoiceFormatter();
+        this(new FileStore(), new OrderPricer(), new TaxRule(), new DiscountRule(), new PlainTextInvoiceFormatter());
+    }
+
+    public CafeteriaSystem(InvoiceStore store, TaxRule taxRule, DiscountRule discountRule, InvoiceFormatter formatter) {
+        this(store, new OrderPricer(), taxRule, discountRule, formatter);
+    }
+
+    public CafeteriaSystem(
+            InvoiceStore store,
+            OrderPricer pricer,
+            TaxRule taxRule,
+            DiscountRule discountRule,
+            InvoiceFormatter formatter
+    ) {
+        this.store = store;
+        this.pricer = pricer;
+        this.taxRule = taxRule;
+        this.discountRule = discountRule;
+        this.formatter = formatter;
         this.menuResolver = new MenuItemMapResolver(menu);
     }
 

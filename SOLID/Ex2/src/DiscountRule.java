@@ -1,5 +1,14 @@
-import java.util.List;
-
-public interface DiscountRule {
-    double calculateDiscount(String customerType, double subtotal, int distinctLines);
+public class DiscountRule {
+    public double calculateDiscount(String customerType, double subtotal, int distinctLines) {
+        // hard-coded policy
+        if ("student".equalsIgnoreCase(customerType)) {
+            if (subtotal >= 180.0) return 10.0;
+            return 0.0;
+        }
+        if ("staff".equalsIgnoreCase(customerType)) {
+            if (distinctLines >= 3) return 15.0;
+            return 5.0;
+        }
+        return 0.0;
+    }
 }
