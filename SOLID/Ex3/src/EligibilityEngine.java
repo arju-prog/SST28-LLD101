@@ -2,8 +2,18 @@ import java.util.*;
 
 public class EligibilityEngine {
     private final FakeEligibilityStore store;
+    private final List<EligibilityRule> rules;
+    private final RuleInput input;
 
-    public EligibilityEngine(FakeEligibilityStore store) { this.store = store; }
+    public EligibilityEngine(FakeEligibilityStore store) {
+        this(store, new RuleInput(), defaultRules());
+    }
+
+    public EligibilityEngine(FakeEligibilityStore store, RuleInput input, List<EligibilityRule> rules) {
+        this.store = store;
+        this.input = input;
+        this.rules = rules;
+    }
 
     public void runAndPrint(StudentProfile s) {
         ReportPrinter p = new ReportPrinter();
@@ -14,24 +24,23 @@ public class EligibilityEngine {
 
     public EligibilityEngineResult evaluate(StudentProfile s) {
         List<String> reasons = new ArrayList<>();
-        String status = "ELIGIBLE";
-
-        // OCP violation: long chain for each rule
-        if (s.disciplinaryFlag != LegacyFlags.NONE) {
-            status = "NOT_ELIGIBLE";
-            reasons.add("disciplinary flag present");
-        } else if (s.cgr < 8.0) {
-            status = "NOT_ELIGIBLE";
-            reasons.add("CGR below 8.0");
-        } else if (s.attendancePct < 75) {
-            status = "NOT_ELIGIBLE";
-            reasons.add("attendance below 75");
-        } else if (s.earnedCredits < 20) {
-            status = "NOT_ELIGIBLE";
-            reasons.add("credits below 20");
+        for (EligibilityRule rule : rules) {
+            String failureReason = rule.evaluate(s, input);
+            if (failureReason != null) {
+                reasons.add(failureReason); // preserve reason order + single-failure behavior
+                return new EligibilityEngineResult("NOT_ELIGIBLE", reasons);
+            }
         }
+        return new EligibilityEngineResult("ELIGIBLE", reasons);
+    }
 
-        return new EligibilityEngineResult(status, reasons);
+    private static List<EligibilityRule> defaultRules() {
+        return List.of(
+                new DisciplinaryFlagRule(),
+                new MinCgrRule(),
+                new MinAttendanceRule(),
+                new MinCreditsRule()
+        );
     }
 }
 

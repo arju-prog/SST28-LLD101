@@ -9,15 +9,18 @@ public class Main {
         NotificationSender sms = new SmsSender(audit);
         NotificationSender wa = new WhatsAppSender(audit);
 
-        email.send(n);
-        sms.send(n);
-        try {
-            wa.send(n);
-        } catch (RuntimeException ex) {
-            System.out.println("WA ERROR: " + ex.getMessage());
-            audit.add("WA failed");
-        }
+        sendAndHandle(email, n, audit);
+        sendAndHandle(sms, n, audit);
+        sendAndHandle(wa, n, audit);
 
         System.out.println("AUDIT entries=" + audit.size());
+    }
+
+    private static void sendAndHandle(NotificationSender sender, Notification n, AuditLog audit) {
+        SendResult r = sender.send(n);
+        if (!r.ok) {
+            System.out.println(sender.channel() + " ERROR: " + r.errorMessage);
+            audit.add(sender.channel() + " failed");
+        }
     }
 }
