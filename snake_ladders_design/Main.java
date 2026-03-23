@@ -3,11 +3,11 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Chute> builtChutes = Arrays.asList(
-                new Chute(16, 6),
-                new Chute(47, 26),
-                new Chute(49, 11),
-                new Chute(99, 1));
+        List<Snake> builtSnakes = Arrays.asList(
+                new Snake(16, 6),
+                new Snake(47, 26),
+                new Snake(49, 11),
+                new Snake(99, 1));
 
         List<Staircase> builtStaircases = Arrays.asList(
                 new Staircase(1, 38),
@@ -17,7 +17,7 @@ public class Main {
 
         List<String> partNames = Arrays.asList("Max Verstappen", "Charles Leclerc");
 
-        Match currentMatch = MatchBuilder.setupMatch(partNames, builtChutes, builtStaircases, "STANDARD");
+        Match currentMatch = MatchBuilder.setupMatch(partNames, builtSnakes, builtStaircases, "STANDARD");
         currentMatch.initiateGame();
     }
 }

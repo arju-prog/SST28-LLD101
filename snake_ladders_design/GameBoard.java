@@ -2,12 +2,12 @@ import java.util.List;
 
 public class GameBoard {
     private final int boardSize;
-    private final List<Chute> chutes;
+    private final List<Snake> snakes;
     private final List<Staircase> staircases;
 
-    public GameBoard(int boardSize, List<Chute> chutes, List<Staircase> staircases) {
+    public GameBoard(int boardSize, List<Snake> snakes, List<Staircase> staircases) {
         this.boardSize = boardSize;
-        this.chutes = chutes;
+        this.snakes = snakes;
         this.staircases = staircases;
     }
 
@@ -16,9 +16,9 @@ public class GameBoard {
     }
 
     public int calculateEffectivePosition(int currentPos) {
-        for (Chute chute : chutes) {
-            if (chute.getTop() == currentPos) {
-                return chute.getBottom();
+        for (Snake snake : snakes) {
+            if (snake.getTop() == currentPos) {
+                return snake.getBottom();
             }
         }
 

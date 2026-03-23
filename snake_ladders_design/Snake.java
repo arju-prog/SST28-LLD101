@@ -1,8 +1,8 @@
-public class Chute {
+public class Snake {
     private final int top;
     private final int bottom;
 
-    public Chute(int top, int bottom) {
+    public Snake(int top, int bottom) {
         this.top = top;
         this.bottom = bottom;
     }

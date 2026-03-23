@@ -3,9 +3,9 @@ import java.util.List;
 import java.util.Queue;
 
 public class MatchBuilder {
-    public static Match setupMatch(List<String> userNames, List<Chute> chutes,
+    public static Match setupMatch(List<String> userNames, List<Snake> snakes,
             List<Staircase> staircases, String diffMode) {
-        GameBoard gb = new GameBoard(100, chutes, staircases);
+        GameBoard gb = new GameBoard(100, snakes, staircases);
         RollingDie die = new RollingDie(6);
 
         Queue<Participant> pQueue = new LinkedList<>();
